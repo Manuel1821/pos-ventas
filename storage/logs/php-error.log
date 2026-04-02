@@ -1,0 +1,193 @@
+[18-Mar-2026 14:49:53 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/index.php(14): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 14:50:25 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/index.php(14): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 14:50:25 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/index.php(14): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 14:50:25 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/index.php(14): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 14:59:41 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/public/index.php(12): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 15:00:12 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/public/index.php(12): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 15:00:12 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/public/index.php(12): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 15:00:12 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: App\Core\Router::get(): Argument #2 ($handler) must be of type callable, array given, called in /home/totalco1/public_html/manuel/routes/web.php on line 23 and defined in /home/totalco1/public_html/manuel/src/Core/Router.php:30
+Stack trace:
+#0 /home/totalco1/public_html/manuel/routes/web.php(23): App\Core\Router->get()
+#1 /home/totalco1/public_html/manuel/public/index.php(12): require('/home/totalco1/...')
+#2 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Core/Router.php on line 30
+[18-Mar-2026 16:56:13 America/Mexico_City] PHP Warning:  The use statement with non-compound name 'PDO' has no effect in /home/totalco1/public_html/manuel/database/migrations/0001_init_schema.php on line 5
+[18-Mar-2026 16:56:13 America/Mexico_City] PHP Warning:  The use statement with non-compound name 'PDO' has no effect in /home/totalco1/public_html/manuel/database/seeders/0001_seed_base.php on line 5
+[18-Mar-2026 23:49:00 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.address' in 'SELECT' in /home/totalco1/public_html/manuel/src/Database/Database.php:86
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(86): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(46): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(38): App\Repositories\CustomerRepository->listByShop()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->index()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 86
+[19-Mar-2026 00:04:08 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'initial_amount' in 'SELECT' in /home/totalco1/public_html/manuel/src/Database/Database.php:73
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(73): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php(24): App\Database\Database::fetch()
+#2 /home/totalco1/public_html/manuel/src/Services/CashService.php(57): App\Repositories\CashSessionRepository->getOpenByShop()
+#3 /home/totalco1/public_html/manuel/src/Controllers/CashController.php(34): App\Services\CashService->getCurrentSummary()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CashController->index()
+#5 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#6 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#7 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 73
+[19-Mar-2026 11:07:06 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: trim(): Argument #1 ($string) must be of type string, null given in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php:85
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php(85): trim()
+#1 /home/totalco1/public_html/manuel/src/Services/CashService.php(135): App\Repositories\CashSessionRepository->close()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CashController.php(216): App\Services\CashService->closeSession()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CashController->guardarCierre()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php on line 85
+[19-Mar-2026 23:35:26 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: trim(): Argument #1 ($string) must be of type string, null given in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php:85
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php(85): trim()
+#1 /home/totalco1/public_html/manuel/src/Services/CashService.php(135): App\Repositories\CashSessionRepository->close()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CashController.php(216): App\Services\CashService->closeSession()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CashController->guardarCierre()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php on line 85
+[20-Mar-2026 22:38:27 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'responsible_name' in 'SELECT' in /home/totalco1/public_html/manuel/src/Database/Database.php:73
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(73): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/ShopRepository.php(38): App\Database\Database::fetch()
+#2 /home/totalco1/public_html/manuel/src/Controllers/ShopSettingsController.php(35): App\Repositories\ShopRepository->findById()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\ShopSettingsController->index()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 73
+[20-Mar-2026 23:44:13 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in /home/totalco1/public_html/manuel/src/Database/Database.php:87
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(87): PDOStatement->execute()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(59): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(38): App\Repositories\CustomerRepository->listByShop()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->index()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 87
+[20-Mar-2026 23:44:52 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in /home/totalco1/public_html/manuel/src/Database/Database.php:87
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(87): PDOStatement->execute()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(59): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(38): App\Repositories\CustomerRepository->listByShop()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->index()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 87
+[20-Mar-2026 23:55:30 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in /home/totalco1/public_html/manuel/src/Database/Database.php:74
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(74): PDOStatement->execute()
+#1 /home/totalco1/public_html/manuel/src/Services/SalesService.php(513): App\Database\Database::fetch()
+#2 /home/totalco1/public_html/manuel/src/Services/SalesService.php(454): App\Services\SalesService->buildTicketHtml()
+#3 /home/totalco1/public_html/manuel/src/Controllers/POSController.php(120): App\Services\SalesService->confirmSale()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\POSController->confirmarVenta()
+#5 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#6 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#7 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 74
+[22-Mar-2026 16:25:41 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: trim(): Argument #1 ($string) must be of type string, null given in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php:85
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php(85): trim()
+#1 /home/totalco1/public_html/manuel/src/Services/CashService.php(135): App\Repositories\CashSessionRepository->close()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CashController.php(216): App\Services\CashService->closeSession()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CashController->guardarCierre()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php on line 85
+[22-Mar-2026 16:35:40 America/Mexico_City] PHP Fatal error:  Uncaught TypeError: trim(): Argument #1 ($string) must be of type string, null given in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php:85
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php(85): trim()
+#1 /home/totalco1/public_html/manuel/src/Services/CashService.php(135): App\Repositories\CashSessionRepository->close()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CashController.php(216): App\Services\CashService->closeSession()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CashController->guardarCierre()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Repositories/CashSessionRepository.php on line 85
+[22-Mar-2026 17:57:07 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'totalco1_sistemapos.customer_debt_settlements' doesn't exist in /home/totalco1/public_html/manuel/src/Database/Database.php:86
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(86): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(304): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(77): App\Repositories\CustomerRepository->listDebtSettlementsByCustomer()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->deuda()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 86
+[22-Mar-2026 17:57:16 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'totalco1_sistemapos.customer_debt_settlements' doesn't exist in /home/totalco1/public_html/manuel/src/Database/Database.php:86
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(86): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(304): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(77): App\Repositories\CustomerRepository->listDebtSettlementsByCustomer()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->deuda()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 86
+[22-Mar-2026 17:57:18 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'totalco1_sistemapos.customer_debt_settlements' doesn't exist in /home/totalco1/public_html/manuel/src/Database/Database.php:86
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(86): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(304): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(77): App\Repositories\CustomerRepository->listDebtSettlementsByCustomer()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->deuda()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 86
+[22-Mar-2026 17:57:24 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'totalco1_sistemapos.customer_debt_settlements' doesn't exist in /home/totalco1/public_html/manuel/src/Database/Database.php:86
+Stack trace:
+#0 /home/totalco1/public_html/manuel/src/Database/Database.php(86): PDO->prepare()
+#1 /home/totalco1/public_html/manuel/src/Repositories/CustomerRepository.php(304): App\Database\Database::fetchAll()
+#2 /home/totalco1/public_html/manuel/src/Controllers/CustomerController.php(77): App\Repositories\CustomerRepository->listDebtSettlementsByCustomer()
+#3 /home/totalco1/public_html/manuel/src/Core/Router.php(105): App\Controllers\CustomerController->deuda()
+#4 /home/totalco1/public_html/manuel/src/Core/Router.php(77): App\Core\Router->callHandler()
+#5 /home/totalco1/public_html/manuel/index.php(17): App\Core\Router->dispatch()
+#6 {main}
+  thrown in /home/totalco1/public_html/manuel/src/Database/Database.php on line 86
+[23-Mar-2026 15:02:49 America/Mexico_City] PHP Parse error:  syntax error, unexpected double-quoted string ">", expecting "," or ";" in /home/totalco1/public_html/manuel/views/admin/apartados/documento.php on line 112

@@ -1,0 +1,4 @@
+- Siempre debes leer la carpeta docs para entender el proyecto con su documentacion
+- Divide todo el proyecto en carpetas, organizalo para su mayor funcionamiento
+- Cuando generes links o ligas hazlo en español
+- Para los nombres de los archivos utiliza el idiona español solo si es muy necesario usa el ingles
