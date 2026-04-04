@@ -140,7 +140,7 @@ return function (PDO $pdo): void {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
     );
 
-    // cash_sessions
+    // cash_sessions (índices antes de FK: evita errno 121 en MariaDB por índice duplicado en shop_id/opened_by)
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS cash_sessions (
             id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -150,14 +150,13 @@ return function (PDO $pdo): void {
             opened_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
             closed_at DATETIME NULL,
             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_cash_sessions_status (status),
             CONSTRAINT fk_cash_sessions_shop
                 FOREIGN KEY (shop_id) REFERENCES shops(id)
                 ON DELETE CASCADE,
             CONSTRAINT fk_cash_sessions_opened_by
                 FOREIGN KEY (opened_by) REFERENCES users(id)
-                ON DELETE RESTRICT,
-            INDEX idx_cash_sessions_shop_id (shop_id),
-            INDEX idx_cash_sessions_status (status)
+                ON DELETE RESTRICT
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
     );
 

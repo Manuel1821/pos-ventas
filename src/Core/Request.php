@@ -51,6 +51,26 @@ class Request
             }
         }
 
+        // Subcarpeta: URL tipo /proyecto/setup con front controller en /proyecto/public/index.php
+        // (Apache suele tener SCRIPT_NAME .../public/index.php pero REQUEST_URI .../proyecto/setup).
+        $scriptName = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        if ($scriptName !== '' && str_ends_with($scriptName, '/public/index.php')) {
+            $publicDir = rtrim((string) dirname($scriptName), '/');
+            $projectRoot = dirname($publicDir);
+            if ($publicDir !== '' && $publicDir !== '/' && str_ends_with($publicDir, '/public')
+                && $projectRoot !== '' && $projectRoot !== '/' && $projectRoot !== '.') {
+                if ($path === $projectRoot) {
+                    $path = '/';
+                } elseif (str_starts_with($path, $projectRoot . '/') && !str_starts_with($path, $publicDir . '/')) {
+                    $path = substr($path, strlen($projectRoot));
+                    $path = $path === '' ? '/' : $path;
+                    if ($path[0] !== '/') {
+                        $path = '/' . $path;
+                    }
+                }
+            }
+        }
+
         $query = $_GET ?? [];
         $body = $_POST ?? [];
 

@@ -1,0 +1,11 @@
+# =============================================================================
+# Usar SOLO si el dominio apunta a la RAÍZ del repositorio (junto a /public),
+# por ejemplo: public_html/onepiece/ contiene bootstrap, config, public, etc.
+# Si el hosting ya usa como raíz documental solo la carpeta /public, borra este archivo.
+# =============================================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ public/index.php [L]
+</IfModule>

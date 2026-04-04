@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS customers (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabla: cash_sessions
+-- Tabla: cash_sessions (índice propio antes de FK: evita errno 121 en MariaDB)
 CREATE TABLE IF NOT EXISTS cash_sessions (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     shop_id BIGINT UNSIGNED NOT NULL,
@@ -134,14 +134,13 @@ CREATE TABLE IF NOT EXISTS cash_sessions (
     opened_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     closed_at DATETIME NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_cash_sessions_status (status),
     CONSTRAINT fk_cash_sessions_shop
         FOREIGN KEY (shop_id) REFERENCES shops(id)
         ON DELETE CASCADE,
     CONSTRAINT fk_cash_sessions_opened_by
         FOREIGN KEY (opened_by) REFERENCES users(id)
-        ON DELETE RESTRICT,
-    INDEX idx_cash_sessions_shop_id (shop_id),
-    INDEX idx_cash_sessions_status (status)
+        ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabla: sales
