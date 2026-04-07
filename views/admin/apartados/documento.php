@@ -89,7 +89,12 @@ ob_start();
                     </table>
                 </div>
 
-                <?php if (!empty($layaway['note_to_customer'])): ?>
+                <?php
+                $showCustomerNote = !empty($layaway['note_to_customer'])
+                    && $st === 'OPEN'
+                    && $balance > 0.009;
+                ?>
+                <?php if ($showCustomerNote): ?>
                     <div class="alert alert-light border mt-3 mb-0">
                         <div class="small text-muted mb-1">Nota</div>
                         <?= nl2br(htmlspecialchars((string) $layaway['note_to_customer'], ENT_QUOTES, 'UTF-8')) ?>
@@ -132,6 +137,29 @@ ob_start();
                     </div>
                     <button class="btn btn-primary w-100" type="submit" <?= $st !== 'OPEN' ? 'disabled' : '' ?>>Registrar abono</button>
                 </form>
+                <?php if ($st === 'OPEN' && $balance > 0.009): ?>
+                    <form class="mt-3 pt-3 border-top" method="post" action="<?= htmlspecialchars($basePath . '/admin/apartados/registrar-abono/' . (int) ($layaway['id'] ?? 0), ENT_QUOTES, 'UTF-8') ?>" onsubmit="return confirm('¿Liquidar el saldo pendiente ($<?= number_format($balance, 2, '.', ',') ?>) y marcar este apartado como pagado?');">
+                        <input type="hidden" name="amount" value="<?= htmlspecialchars(number_format($balance, 2, '.', ''), ENT_QUOTES, 'UTF-8') ?>">
+                        <div class="mb-2">
+                            <label class="form-label small">Forma de pago (liquidación)</label>
+                            <select name="payment_method" class="form-select">
+                                <option value="EFECTIVO">Efectivo</option>
+                                <option value="TRANSFERENCIA">Transferencia</option>
+                                <option value="TARJETA_DEBITO">Tarjeta débito</option>
+                                <option value="TARJETA_CREDITO">Tarjeta crédito</option>
+                                <option value="OTRO">Otro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Referencia</label>
+                            <input type="text" maxlength="120" name="reference" class="form-control" placeholder="Opcional (ej. retiro en tienda)">
+                        </div>
+                        <button class="btn btn-success w-100" type="submit">
+                            <i class="bi bi-check-circle me-1"></i> Liquidar apartado
+                        </button>
+                        <div class="small text-muted mt-2 mb-0">Registra un abono por el saldo total ($<?= number_format($balance, 2, '.', ',') ?>) de una vez.</div>
+                    </form>
+                <?php endif; ?>
                 <?php if ($st === 'OPEN'): ?>
                     <form class="mt-2" method="post" action="<?= htmlspecialchars($basePath . '/admin/apartados/cancelar/' . (int) ($layaway['id'] ?? 0), ENT_QUOTES, 'UTF-8') ?>" onsubmit="return confirm('¿Cancelar este apartado?');">
                         <button class="btn btn-outline-danger w-100" type="submit">Cancelar apartado</button>

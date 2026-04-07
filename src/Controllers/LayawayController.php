@@ -180,7 +180,9 @@ class LayawayController
 
         $res = $this->layawayService->registerPayment($shopId, $id, $userId, $amount, $method, $reference !== '' ? $reference : null);
         if ($res['success']) {
-            Flash::set('success', 'Abono registrado correctamente.');
+            $rowAfter = $this->layawayRepo->findById($id, $shopId);
+            $paidInFull = $rowAfter && (string) ($rowAfter['status'] ?? '') === 'PAID';
+            Flash::set('success', $paidInFull ? 'Apartado liquidado correctamente.' : 'Abono registrado correctamente.');
         } else {
             Flash::set('danger', (string) ($res['error'] ?? 'No se pudo registrar el abono.'));
         }

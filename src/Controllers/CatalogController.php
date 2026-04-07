@@ -13,6 +13,7 @@ use App\Database\Database;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ShopRepository;
+use App\Support\ImageThumbnail;
 use App\Support\ProductThumbnailDelivery;
 
 class CatalogController
@@ -143,7 +144,8 @@ class CatalogController
         }
 
         $projectRoot = $GLOBALS['app_base_path'] ?? dirname(__DIR__, 3);
-        $fullPath = $projectRoot . '/storage/uploads/' . $product['image_path'];
+        $uploadsRoot = $projectRoot . '/storage/uploads/';
+        $fullPath = $uploadsRoot . $product['image_path'];
         $storageRoot = $projectRoot . '/storage';
 
         $realStorageRoot = realpath($storageRoot);
@@ -158,10 +160,46 @@ class CatalogController
             return;
         }
 
-        $mime = mime_content_type($realFilePath) ?: 'application/octet-stream';
-        header('Content-Type: ' . $mime);
-        header('Content-Length: ' . (string) filesize($realFilePath));
-        readfile($realFilePath);
+        $maxEdge = 1200;
+        $quality = 78;
+        $srcMtime = (int) (@filemtime($realFilePath) ?: 0);
+        $srcSize = (int) (@filesize($realFilePath) ?: 0);
+        $cacheRel = 'cache/catalogo/' . $shopId . '/primary_' . $productId . '_' . $srcMtime . '_' . $maxEdge . '_q' . $quality . '.jpg';
+        $cacheAbs = $uploadsRoot . $cacheRel;
+
+        $fileToSend = $realFilePath;
+        $contentType = mime_content_type($realFilePath) ?: 'application/octet-stream';
+
+        if (ImageThumbnail::isGdAvailable()) {
+            if (is_file($cacheAbs)) {
+                $fileToSend = $cacheAbs;
+                $contentType = 'image/jpeg';
+            } else {
+                if (ImageThumbnail::createJpegResized($realFilePath, $cacheAbs, $maxEdge, $quality) && is_file($cacheAbs)) {
+                    $fileToSend = $cacheAbs;
+                    $contentType = 'image/jpeg';
+                }
+            }
+        }
+
+        $mtime = (int) (@filemtime($fileToSend) ?: 0);
+        $size = (int) (@filesize($fileToSend) ?: 0);
+        $etag = '"' . sha1($fileToSend . '|' . $mtime . '|' . $size) . '"';
+        header('ETag: ' . $etag);
+        header('Cache-Control: public, max-age=86400, must-revalidate');
+        if ($mtime > 0) {
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime) . ' GMT');
+        }
+
+        $ifNoneMatch = (string) ($_SERVER['HTTP_IF_NONE_MATCH'] ?? '');
+        if ($ifNoneMatch !== '' && trim($ifNoneMatch) === $etag) {
+            http_response_code(304);
+            exit;
+        }
+
+        header('Content-Type: ' . $contentType);
+        header('Content-Length: ' . (string) $size);
+        readfile($fileToSend);
         exit;
     }
 

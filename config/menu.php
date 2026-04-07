@@ -119,8 +119,8 @@ return [
                 'key' => 'tienda',
                 'label' => 'Tienda en linea',
                 'icon' => 'bi bi-shop-window',
-                'href' => '/admin/futuro/tienda',
-                'activeSubstrings' => ['/admin/futuro/tienda'],
+                'href' => 'https://mimostrador.com/onepiece/public/catalogo/tienda-principal',
+                'activeSubstrings' => [],
             ],
             [
                 'key' => 'impresion',

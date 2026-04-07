@@ -140,6 +140,16 @@ $rootPattern = '#^' . preg_quote((string) ($basePath ?? ''), '#') . '/?$#';
 $isRoot = preg_match($rootPattern, $requestUri) === 1;
 $isNuevaVentaPage = strpos($requestUri, '/admin/pos/nueva-venta') !== false;
 $menuItems = (array) ($GLOBALS['config']['menu']['admin'] ?? []);
+$menuResolveHref = static function (string $base, string $href): string {
+    if ($href === '') {
+        return '';
+    }
+    if (preg_match('#^https?://#i', $href) === 1) {
+        return $href;
+    }
+
+    return $base . $href;
+};
 ?>
 <div class="d-flex">
     <aside class="sidebar sidebar-desktop d-none d-lg-block">
@@ -180,7 +190,7 @@ $menuItems = (array) ($GLOBALS['config']['menu']['admin'] ?? []);
                             }
                         }
                         ?>
-                        <a class="menu-link ps-4 <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($basePath . $chHref, ENT_QUOTES, 'UTF-8') ?>">
+                        <a class="menu-link ps-4 <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($menuResolveHref($basePath, $chHref), ENT_QUOTES, 'UTF-8') ?>">
                             <i class="bi bi-chevron-right" style="font-size:.75rem;opacity:.6;"></i>
                             <?= htmlspecialchars((string) ($ch['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                         </a>
@@ -204,7 +214,7 @@ $menuItems = (array) ($GLOBALS['config']['menu']['admin'] ?? []);
                     }
                 }
                 ?>
-                <a class="menu-link <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($basePath . $href, ENT_QUOTES, 'UTF-8') ?>">
+                <a class="menu-link <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($menuResolveHref($basePath, $href), ENT_QUOTES, 'UTF-8') ?>">
                     <i class="<?= htmlspecialchars((string) ($item['icon'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"></i>
                     <?= htmlspecialchars((string) ($item['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                 </a>
@@ -254,7 +264,7 @@ $menuItems = (array) ($GLOBALS['config']['menu']['admin'] ?? []);
                                     }
                                 }
                                 ?>
-                                <a class="menu-link ps-4 <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($basePath . $chHref, ENT_QUOTES, 'UTF-8') ?>">
+                                <a class="menu-link ps-4 <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($menuResolveHref($basePath, $chHref), ENT_QUOTES, 'UTF-8') ?>">
                                     <i class="bi bi-chevron-right" style="font-size:.75rem;opacity:.6;"></i>
                                     <?= htmlspecialchars((string) ($ch['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                                 </a>
@@ -278,7 +288,7 @@ $menuItems = (array) ($GLOBALS['config']['menu']['admin'] ?? []);
                             }
                         }
                         ?>
-                        <a class="menu-link <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($basePath . $href, ENT_QUOTES, 'UTF-8') ?>">
+                        <a class="menu-link <?= $active ? 'active' : '' ?>" href="<?= htmlspecialchars($menuResolveHref($basePath, $href), ENT_QUOTES, 'UTF-8') ?>">
                             <i class="<?= htmlspecialchars((string) ($item['icon'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"></i>
                             <?= htmlspecialchars((string) ($item['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                         </a>

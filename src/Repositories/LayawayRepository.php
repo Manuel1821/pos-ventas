@@ -26,14 +26,6 @@ class LayawayRepository
         }
 
         $sort = (string) ($filters['sort'] ?? 'date_desc');
-        $orderSql = 'l.created_at DESC, l.id DESC';
-        if ($sort === 'date_asc') {
-            $orderSql = 'l.created_at ASC, l.id ASC';
-        } elseif ($sort === 'total_desc') {
-            $orderSql = 'l.total DESC, l.id DESC';
-        } elseif ($sort === 'total_asc') {
-            $orderSql = 'l.total ASC, l.id ASC';
-        }
 
         $where = ['l.shop_id = :shop_id'];
         $params = ['shop_id' => $shopId];
@@ -66,12 +58,23 @@ class LayawayRepository
 
         $whereSql = implode(' AND ', $where);
 
+        // En "Todos": solo cuentas con saldo pendiente (sin apartados ya liquidados a nivel de cuenta).
+        $havingBalance = '';
+        if ($status === '') {
+            $havingBalance = ' HAVING (SUM(l.total) - SUM(l.paid_total)) > 0.009';
+        }
+
         $countRow = Database::fetch(
             "SELECT COUNT(*) AS c
-             FROM layaways l
-             LEFT JOIN customers c ON c.id = l.customer_id
-             LEFT JOIN users u ON u.id = l.created_by
-             WHERE {$whereSql}",
+             FROM (
+                 SELECT 1
+                 FROM layaways l
+                 LEFT JOIN customers c ON c.id = l.customer_id
+                 LEFT JOIN users u ON u.id = l.created_by
+                 WHERE {$whereSql}
+                 GROUP BY IFNULL(l.customer_id, l.id)
+                 {$havingBalance}
+             ) grouped",
             $params
         );
         $total = (int) ($countRow['c'] ?? 0);
@@ -80,15 +83,56 @@ class LayawayRepository
         $lim = (int) self::PER_PAGE;
         $off = (int) $offset;
 
+        $sortOuter = 'g.last_created_at DESC, g.grp DESC';
+        if ($sort === 'date_asc') {
+            $sortOuter = 'g.last_created_at ASC, g.grp ASC';
+        } elseif ($sort === 'total_desc') {
+            $sortOuter = 'g.total_sum DESC, g.grp DESC';
+        } elseif ($sort === 'total_asc') {
+            $sortOuter = 'g.total_sum ASC, g.grp ASC';
+        }
+
         $items = Database::fetchAll(
-            "SELECT l.*,
-                    c.name AS customer_name,
-                    TRIM(CONCAT(COALESCE(u.first_name, ''), ' ', COALESCE(u.last_name, ''))) AS created_by_name
-             FROM layaways l
-             LEFT JOIN customers c ON c.id = l.customer_id
-             LEFT JOIN users u ON u.id = l.created_by
-             WHERE {$whereSql}
-             ORDER BY {$orderSql}
+            "SELECT g.grp,
+                    g.customer_name,
+                    g.layaway_count,
+                    g.layaway_count_debt,
+                    g.total_sum AS total,
+                    g.paid_sum AS paid_total,
+                    g.last_created_at AS created_at,
+                    g.folios_csv,
+                    g.layaway_ids_csv,
+                    g.folios_debt_csv,
+                    g.layaway_ids_debt_csv,
+                    g.status_distinct_count,
+                    g.status_sample
+             FROM (
+                 SELECT IFNULL(l.customer_id, l.id) AS grp,
+                        MAX(TRIM(COALESCE(c.name, ''))) AS customer_name,
+                        COUNT(*) AS layaway_count,
+                        SUM(CASE
+                            WHEN (l.total - l.paid_total) > 0.009
+                                 AND l.status NOT IN ('PAID', 'CANCELLED')
+                            THEN 1 ELSE 0 END) AS layaway_count_debt,
+                        SUM(l.total) AS total_sum,
+                        SUM(l.paid_total) AS paid_sum,
+                        MAX(l.created_at) AS last_created_at,
+                        GROUP_CONCAT(l.folio ORDER BY l.created_at DESC, l.id DESC SEPARATOR ',') AS folios_csv,
+                        GROUP_CONCAT(l.id ORDER BY l.created_at DESC, l.id DESC SEPARATOR ',') AS layaway_ids_csv,
+                        GROUP_CONCAT(IF((l.total - l.paid_total) > 0.009 AND l.status NOT IN ('PAID', 'CANCELLED'), l.folio, NULL)
+                                     ORDER BY l.created_at DESC, l.id DESC SEPARATOR ',') AS folios_debt_csv,
+                        GROUP_CONCAT(IF((l.total - l.paid_total) > 0.009 AND l.status NOT IN ('PAID', 'CANCELLED'), l.id, NULL)
+                                     ORDER BY l.created_at DESC, l.id DESC SEPARATOR ',') AS layaway_ids_debt_csv,
+                        COUNT(DISTINCT l.status) AS status_distinct_count,
+                        MAX(l.status) AS status_sample
+                 FROM layaways l
+                 LEFT JOIN customers c ON c.id = l.customer_id
+                 LEFT JOIN users u ON u.id = l.created_by
+                 WHERE {$whereSql}
+                 GROUP BY IFNULL(l.customer_id, l.id)
+                 {$havingBalance}
+             ) g
+             ORDER BY {$sortOuter}
              LIMIT {$lim} OFFSET {$off}",
             $params
         );

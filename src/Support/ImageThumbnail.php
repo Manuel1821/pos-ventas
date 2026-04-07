@@ -29,9 +29,21 @@ final class ImageThumbnail
      */
     public static function createJpegThumbnail(string $sourceAbsolute, string $destinationAbsolute, int $maxEdge = self::DEFAULT_MAX_EDGE): bool
     {
+        return self::createJpegResized($sourceAbsolute, $destinationAbsolute, $maxEdge, 82);
+    }
+
+    /**
+     * Crea un JPEG redimensionado y comprimido.
+     *
+     * @param int $quality 1..100 (recomendado 70..85)
+     */
+    public static function createJpegResized(string $sourceAbsolute, string $destinationAbsolute, int $maxEdge, int $quality): bool
+    {
         if (!is_file($sourceAbsolute) || !self::isGdAvailable()) {
             return false;
         }
+
+        $quality = max(1, min(100, $quality));
 
         $info = @getimagesize($sourceAbsolute);
         if ($info === false) {
@@ -67,6 +79,7 @@ final class ImageThumbnail
             return false;
         }
 
+        // Fondo blanco para evitar transparencia negra al convertir PNG/GIF/WebP a JPEG.
         $white = imagecolorallocate($dst, 255, 255, 255);
         imagefilledrectangle($dst, 0, 0, $nw, $nh, $white);
         imagecopyresampled($dst, $src, 0, 0, 0, 0, $nw, $nh, $w, $h);
@@ -80,7 +93,7 @@ final class ImageThumbnail
             }
         }
 
-        $ok = imagejpeg($dst, $destinationAbsolute, 82);
+        $ok = imagejpeg($dst, $destinationAbsolute, $quality);
         imagedestroy($dst);
 
         return $ok;

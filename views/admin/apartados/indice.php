@@ -90,7 +90,7 @@ $tabQs = function (string $t) use ($filters): string {
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>Apartado</th>
+                        <th>Cuenta</th>
                         <th>Fecha</th>
                         <th>Cliente</th>
                         <th>Estado</th>
@@ -106,27 +106,80 @@ $tabQs = function (string $t) use ($filters): string {
                     <?php else: ?>
                         <?php foreach ($items as $row): ?>
                             <?php
-                            $st = (string) ($row['status'] ?? 'OPEN');
-                            $labels = ['OPEN' => 'Abierto', 'PAID' => 'Pagado', 'CANCELLED' => 'Cancelado'];
-                            $classes = ['OPEN' => 'text-bg-warning', 'PAID' => 'text-bg-success', 'CANCELLED' => 'text-bg-secondary'];
+                            $labels = ['OPEN' => 'Abierto', 'PAID' => 'Pagado', 'CANCELLED' => 'Cancelado', 'MIXED' => 'Varios'];
+                            $classes = ['OPEN' => 'text-bg-warning', 'PAID' => 'text-bg-success', 'CANCELLED' => 'text-bg-secondary', 'MIXED' => 'text-bg-info'];
+                            $stDistinct = (int) ($row['status_distinct_count'] ?? 1);
+                            $st = $stDistinct > 1 ? 'MIXED' : (string) ($row['status_sample'] ?? 'OPEN');
                             $created = !empty($row['created_at']) ? strtotime((string) $row['created_at']) : false;
                             $fechaTxt = $created ? date('d/m/Y H:i', $created) : '—';
                             $totalAmt = (float) ($row['total'] ?? 0);
                             $paidAmt = (float) ($row['paid_total'] ?? 0);
                             $balance = max(0, $totalAmt - $paidAmt);
+                            $useDebtList = ($tab === 'all' || $tab === 'open');
+                            $debtIdsRaw = trim((string) ($row['layaway_ids_debt_csv'] ?? ''));
+                            if ($useDebtList && $debtIdsRaw !== '') {
+                                $folioTokens = array_values(array_filter(array_map('trim', explode(',', (string) ($row['folios_debt_csv'] ?? '')))));
+                                $idTokens = array_values(array_filter(array_map('intval', explode(',', $debtIdsRaw))));
+                                $layawayCount = max(1, (int) ($row['layaway_count_debt'] ?? count($idTokens)));
+                            } else {
+                                $folioTokens = array_values(array_filter(array_map('trim', explode(',', (string) ($row['folios_csv'] ?? '')))));
+                                $idTokens = array_values(array_filter(array_map('intval', explode(',', (string) ($row['layaway_ids_csv'] ?? '')))));
+                                $layawayCount = max(1, (int) ($row['layaway_count'] ?? 1));
+                            }
+                            $pairs = [];
+                            foreach ($idTokens as $i => $lid) {
+                                if ($lid <= 0) {
+                                    continue;
+                                }
+                                $pairs[] = ['id' => $lid, 'folio' => $folioTokens[$i] ?? '?'];
+                            }
+                            $cuentaHtml = '';
+                            if ($layawayCount <= 1 && count($pairs) === 1) {
+                                $cuentaHtml = '<span class="fw-semibold">#' . htmlspecialchars((string) $pairs[0]['folio'], ENT_QUOTES, 'UTF-8') . '</span>';
+                            } else {
+                                $fols = array_map(static function ($p) {
+                                    return '#' . htmlspecialchars((string) $p['folio'], ENT_QUOTES, 'UTF-8');
+                                }, $pairs);
+                                $cuentaHtml = '<div class="fw-semibold">' . (int) $layawayCount . ' apartados</div>'
+                                    . '<div class="small text-muted">' . implode(', ', $fols) . '</div>';
+                            }
+                            $custName = trim((string) ($row['customer_name'] ?? ''));
+                            if ($custName === '') {
+                                $custName = 'Sin cliente';
+                            }
+                            $ddId = 'ap_acc_' . preg_replace('/[^0-9\-]/', '', (string) ($row['grp'] ?? '0')) . '_' . substr(sha1((string) json_encode($pairs)), 0, 8);
                             ?>
                             <tr>
-                                <td class="fw-semibold">#<?= (int) ($row['folio'] ?? 0) ?></td>
+                                <td><?= $cuentaHtml ?></td>
                                 <td class="small"><?= htmlspecialchars($fechaTxt, ENT_QUOTES, 'UTF-8') ?></td>
-                                <td class="small"><?= htmlspecialchars(trim((string) ($row['customer_name'] ?? '')), ENT_QUOTES, 'UTF-8') ?></td>
+                                <td class="small"><?= htmlspecialchars($custName, ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><span class="badge rounded-pill <?= htmlspecialchars($classes[$st] ?? 'text-bg-light', ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($labels[$st] ?? $st, ENT_QUOTES, 'UTF-8') ?></span></td>
                                 <td class="text-end fw-semibold">$<?= number_format($totalAmt, 2, '.', ',') ?></td>
                                 <td class="text-end">$<?= number_format($paidAmt, 2, '.', ',') ?></td>
                                 <td class="text-end"><?= $balance > 0 ? '$' . number_format($balance, 2, '.', ',') : '<span class="text-success fw-semibold">Liquidado</span>' ?></td>
                                 <td class="text-end">
-                                    <a href="<?= htmlspecialchars($basePath . '/admin/apartados/documento/' . (int) ($row['id'] ?? 0), ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
+                                    <?php if (count($pairs) === 1): ?>
+                                        <a href="<?= htmlspecialchars($basePath . '/admin/apartados/documento/' . (int) $pairs[0]['id'], ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    <?php elseif (count($pairs) > 1): ?>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" data-bs-popper-config='{"strategy":"fixed"}' data-bs-boundary="viewport" aria-expanded="false" id="<?= htmlspecialchars($ddId, ENT_QUOTES, 'UTF-8') ?>">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="<?= htmlspecialchars($ddId, ENT_QUOTES, 'UTF-8') ?>">
+                                                <?php foreach ($pairs as $p): ?>
+                                                    <li>
+                                                        <a class="dropdown-item small" href="<?= htmlspecialchars($basePath . '/admin/apartados/documento/' . (int) $p['id'], ENT_QUOTES, 'UTF-8') ?>">
+                                                            Apartado #<?= htmlspecialchars((string) $p['folio'], ENT_QUOTES, 'UTF-8') ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-muted small">—</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -136,7 +189,7 @@ $tabQs = function (string $t) use ($filters): string {
         </div>
         <?php if ($totalPages > 1): ?>
             <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div class="small text-muted">Mostrando <?= count($items) ?> de <?= (int) $total ?> apartados</div>
+                <div class="small text-muted">Mostrando <?= count($items) ?> de <?= (int) $total ?> cuentas (clientes)</div>
                 <nav>
                     <ul class="pagination pagination-sm mb-0">
                         <?php if ($page > 1): ?>
